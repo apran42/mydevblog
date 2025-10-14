@@ -22,7 +22,7 @@
   <section class="recent-posts">
     {% for post in site.posts limit:5 %}
     <article class="post-card">
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
       <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
       <div class="categories">
         {% for cat in post.categories %}
