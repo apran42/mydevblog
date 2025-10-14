@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }}</title>
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/default.css">
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="{{ site.baseurl }}/">Home</a>
+    <a href="{{ site.baseurl }}/BOJ/">BOJ</a>
+  </nav>
+</header>
+
+<main>
+
+  {% if page.url == "/" %}
+  <!-- 메인화면 최근 포스트 카드 -->
+  <section class="recent-posts">
+    {% for post in site.posts limit:5 %}
+    <article class="post-card">
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
+      <div class="categories">
+        {% for cat in post.categories %}
+        <a href="{{ site.baseurl }}/BOJ/{{ cat }}/">{{ cat }}</a>
+        {% endfor %}
+      </div>
+    </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if page.url == "/BOJ/" %}
+  <!-- BOJ 하위 카테고리 카드 -->
+  <section class="boj-categories">
+    {% assign boj_categories = "Implementation,Math,Sorting" | split: "," %}
+{% assign boj_category_titles = 
+  "Implementation:구현,Math:수학,Sorting:정렬" | split: "," %}
+
+{% for cat in boj_categories %}
+  {% assign title = "" %}
+  {% for pair in boj_category_titles %}
+    {% assign arr = pair | split: ":" %}
+    {% if arr[0] == cat %}
+      {% assign title = arr[1] %}
+    {% endif %}
+  {% endfor %}
+
+  <article class="post-card">
+    <h2><a href="{{ site.baseurl }}/BOJ/{{ cat }}/">{{ title }}</a></h2>
+  </article>
+{% endfor %}
+  </section>
+  {% endif %}
+
+  {% if page.categories contains "BOJ" and page.url != "/BOJ/" %}
+  {% assign cat_name = page.categories[1] %}
+  <section class="category-posts">
+    {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
+    {% if posts_in_cat.size > 0 %}
+      {% for post in posts_in_cat %}
+      <article class="post-card">
+        <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+        <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
+        <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+        <div class="categories">
+          {% for cat in post.categories %}
+          <a href="{{ site.baseurl }}/BOJ/{{ cat }}/">{{ cat }}</a>
+          {% endfor %}
+        </div>
+      </article>
+      {% endfor %}
+    {% else %}
+      <p>포스트가 없습니다.</p>
+    {% endif %}
+  </section>
+{% endif %}
+
+
+
+</main>
+
+<footer>
+  <p>© 2025 MyDevBlog</p>
+</footer>
+
+</body>
+</html>

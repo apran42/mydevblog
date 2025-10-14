@@ -2,10 +2,9 @@
 layout: post
 title: "백준 1011번: Fly me to the Alpha Centauri"
 date: 2025-10-14
-categories: ["BOJ","Implementation"]
+categories: ["BOJ","Math"]
 tags: [Gold V]
 ---
-
 
 ```python
 # 테스트 케이스 입력

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/default.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/post.css"> 
+    
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="{{ site.baseurl }}/">Home</a></li>
+          <li><a href="{{ site.baseurl }}/BOJ/">BOJ</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="post-content">
+      <h1>{{ page.title }}</h1>
+
+      {% if page.date %}
+      <p><em>작성일: {{ page.date | date: "%Y-%m-%d" }}</em></p>
+      {% endif %}
+
+      {% if page.categories %}
+      <div class="categories">
+        카테고리:
+        {% for cat in page.categories %}
+            <a class="category-link" href="{{ site.baseurl }}{{ site.data.categories[cat] }}">{{ cat }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if page.tags %}
+      <div class="tags">
+        태그:
+        {% for tag in page.tags %}
+          <a class="category-link" href="{{ site.baseurl }}/tags/{{ tag }}/">{{ tag }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {{ content }}
+    </main>
+
+    <footer>
+      <p>&copy; {{ site.time | date: "%Y" }} My Dev Blog</p>
+    </footer>
+  </body>
+</html>
