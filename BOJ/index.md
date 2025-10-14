@@ -11,8 +11,8 @@ title: BOJ 문제
   <a href="{{ site.baseurl }}/BOJ/Math/" class="card">
     Math
   </a>
-  <a href="{{ site.baseurl }}/BOJ/Sort/" class="card">
-    Sort
+  <a href="{{ site.baseurl }}/BOJ/Sorting/" class="card">
+    Sorting
   </a>
 </div>
 
