@@ -5,104 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title | default: site.title }}</title>
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/default.css">
-</head>
+  </head>
 <body>
+  <header>
+    <nav>
+      <a href="{{ site.baseurl }}/">DevBlog</a>
+      <!-- BOJ 항목 삭제 -->
+    </nav>
+  </header>
 
-<header>
-  <nav>
-    <a href="{{ site.baseurl }}/">Home</a>
-    <a href="{{ site.baseurl }}/boj/">BOJ</a>
-  </nav>
-</header>
-
-<main>
-
-  {% if page.url == "/" %}
-  <!-- 메인화면 최근 포스트 카드 -->
-  <section class="recent-posts">
-    {% for post in site.posts limit:5 %}
-    <article class="post-card">
-      <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
-      <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
-      <div class="categories">
-        {% for cat in post.categories %}
-        {% if cat == "boj" %}
-          <a href="{{ site.baseurl }}/{{ cat }}/">{{ cat }}</a>
-        {% else %}
-          <a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ cat }}</a>
-        {% endif %}
-        {% endfor %}
+  <div class="layout">
+    <aside class="sidebar">
+      <!-- 프로필 영역 -->
+      <div class="profile">
+        <img src="{{ site.baseurl }}/assets/images/profile.png" alt="프로필" class="profile-img">
+        <h2>Apran</h2>
+        <p>개발과 문제풀이를 기록하고 있습니다</p>
       </div>
-    </article>
-    {% endfor %}
-  </section>
-  {% endif %}
+      <!-- 카테고리 구조 -->
+      <nav class="category-nav">
+        <h3>카테고리</h3>
+        <ul>
+          <li><a href="{{ site.baseurl }}/boj/">BOJ</a></li>
+          <li><a href="{{ site.baseurl }}/dev/">개발</a></li>
+          <!-- 하위 카테고리도 중첩 ul로 표시 가능 -->
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content">
 
-  {% if page.url == "/boj/" %}
-  <!-- BOJ 하위 카테고리 카드 -->
-  <section class="boj-categories">
-    {% assign boj_categories = "implementation,math,sorting" | split: "," %}
-    {% assign boj_category_titles = "implementation:구현,math:수학,sorting:정렬" | split: "," %}
+      {% if page.url == "/" %}
+      <!-- 메인화면 최근 포스트 카드 -->
+      <section class="recent-posts">
+        {% for post in site.posts limit:5 %}
+        <article class="post-card">
+          <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
+          <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
+          <div class="categories">
+            {% for cat in post.categories %}
+            <a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ cat }}</a>
+            {% endfor %}
+          </div>
+        </article>
+        {% endfor %}
+      </section>
+      {% endif %}
 
-    {% for cat in boj_categories %}
-      {% assign title = "" %}
-      {% for pair in boj_category_titles %}
-        {% assign arr = pair | split: ":" %}
-        {% if arr[0] == cat %}
-          {% assign title = arr[1] %}
-        {% endif %}
-      {% endfor %}
+      {% if page.url == "/boj/" %}
+      <!-- boj 하위 카테고리 자동 추출 (boj 제외 모든 카테고리) -->
+      <section class="boj-categories">
+        {% assign subcategories = "" | split: "" %}
+        {% for post in site.posts %}
+          {% if post.categories contains "boj" %}
+            {% for cat in post.categories %}
+              {% unless cat == "boj" or subcategories contains cat %}
+                {% assign subcategories = subcategories | push: cat %}
+              {% endunless %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
 
-      <article class="post-card">
-        <h2><a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ title }}</a></h2>
-      </article>
+        {% for subcat in subcategories %}
+          <article class="post-card">
+            <h2><a href="{{ site.baseurl }}/boj/{{ subcat }}/">{{ subcat }}</a></h2>
+          </article>
+        {% endfor %}
+      </section>
+      {% endif %}
 
-      <!-- 해당 카테고리의 포스트 카드 -->
+      {% if page.categories contains "boj" and page.url != "/boj/" %}
+      {% assign cat_name = page.categories[1] %}
       <section class="category-posts">
-        {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat" %}
+        {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
         {% if posts_in_cat.size > 0 %}
           {% for post in posts_in_cat %}
           <article class="post-card">
-            <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+            <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
             <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
-            <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+            <div class="categories">
+              {% for cat in post.categories %}
+                {% unless cat == "boj" %}
+                  <a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ cat }}</a>
+                {% endunless %}
+              {% endfor %}
+            </div>
           </article>
           {% endfor %}
         {% else %}
           <p>포스트가 없습니다.</p>
         {% endif %}
       </section>
-    {% endfor %}
-  </section>
-  {% endif %}
+      {% endif %}
+    </main>
+  </div>
 
-  {% if page.categories contains "boj" and page.url != "/boj/" %}
-  {% assign cat_name = page.categories[1] %}
-  <section class="category-posts">
-    {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
-    {% if posts_in_cat.size > 0 %}
-      {% for post in posts_in_cat %}
-      <article class="post-card">
-        <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
-        <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
-        <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
-        <div class="categories">
-          {% for cat in post.categories %}
-          <a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ cat }}</a>
-          {% endfor %}
-        </div>
-      </article>
-      {% endfor %}
-    {% else %}
-      <p>포스트가 없습니다.</p>
-    {% endif %}
-  </section>
-{% endif %}
-</main>
-
-<footer>
-  <p>© 2025 MyDevBlog</p>
-</footer>
+  <footer>
+    <p>© 2025 MyDevBlog</p>
+  </footer>
+  
 
 </body>
 </html>
