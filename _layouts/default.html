@@ -82,7 +82,7 @@
       {% endif %}
 
       {% if page.categories contains "boj" and page.url != "/boj/" %}
-      {% assign cat_name = page.categories[1] %}
+      {% assign cat_name = page.categories | last %}
       <section class="category-posts">
         {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
         {% if posts_in_cat.size > 0 %}
