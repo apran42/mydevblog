@@ -6,48 +6,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/default.css">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/post.css"> 
-    
+    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
   </head>
   <body>
     <header>
       <nav>
-        <ul>
-          <li><a href="{{ site.baseurl }}/">Home</a></li>
-          <li><a href="{{ site.baseurl }}/boj/">BOJ</a></li>
-        </ul>
+          <a href="{{ site.baseurl }}/">DevBlog</a>
       </nav>
     </header>
 
-    <main class="post-content">
-      <h1>{{ page.title }}</h1>
+    <div class="layout">
+      <aside class="sidebar">
+        <!-- 프로필 영역 -->
+        <div class="profile">
+          <img src="{{ site.baseurl }}/assets/images/profile.png" alt="프로필" class="profile-img">
+          <h2>Apran</h2>
+            <p>개발과 문제풀이를 기록하고 있습니다</p>
+        </div>
+        <!-- 카테고리 구조 -->
+        <nav class="category-nav">
+          <h3>카테고리</h3>
+          <ul>
+            <li><a href="{{ site.baseurl }}/boj/">BOJ</a></li>
+            <li><a href="{{ site.baseurl }}/dev/">개발</a></li>
+            <!-- 하위 카테고리도 중첩 ul로 표시 가능 -->
+          </ul>
+        </nav>
+      </aside>
+      <main class="main-content">
+        <article class="post-content">
+          <h1>{{ page.title }}</h1>
 
-      {% if page.date %}
-      <p><em>작성일: {{ page.date | date: "%Y-%m-%d" }}</em></p>
-      {% endif %}
+          {% if page.date %}
+          <p><em>작성일: {{ page.date | date: "%Y-%m-%d" }}</em></p>
+          {% endif %}
 
-      {% if page.categories %}
-      <div class="categories">
-        카테고리:
-        {% for cat in page.categories %}
-            <a class="category-link" href="{{ site.baseurl }}/{{ site.data.categories[cat] }}">{{ cat }}</a>
-        {% endfor %}
-      </div>
-      {% endif %}
+          {% if page.categories %}
+          <div class="categories">
+            카테고리:
+            {% for cat in page.categories %}
+                <a class="category-link" href="{{ site.baseurl }}/{{ site.data.categories[cat] }}">{{ cat }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
 
-      {% if page.tags %}
-      <div class="tags">
-        태그:
-        {% for tag in page.tags %}
-          <a class="category-link" href="{{ site.baseurl }}/tags/{{ tag }}/">{{ tag }}</a>
-        {% endfor %}
-      </div>
-      {% endif %}
+          {% if page.tags %}
+          <div class="tags">
+            태그:
+            {% for tag in page.tags %}
+              <a class="category-link" href="{{ site.baseurl }}/tags/{{ tag }}/">{{ tag }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
 
-      {{ content }}
-    </main>
+          {{ content }}
+        </article>
+      </main>
+    </div>
 
     <footer>
       <p>&copy; {{ site.time | date: "%Y" }} My Dev Blog</p>
     </footer>
+    <!-- 언어별 코드 하이라이팅 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-java.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-c.min.js"></script>
+    <!-- 라인 넘버링 플러그인 -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
   </body>
 </html>
