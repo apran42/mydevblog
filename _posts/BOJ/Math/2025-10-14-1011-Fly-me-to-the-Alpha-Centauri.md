@@ -6,6 +6,8 @@ categories: ["boj","math"]
 tags: [Gold V]
 ---
 
+---
+
 ```python
 # 테스트 케이스 입력
 import sys
