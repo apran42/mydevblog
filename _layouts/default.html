@@ -42,22 +42,37 @@
   <!-- BOJ 하위 카테고리 카드 -->
   <section class="boj-categories">
     {% assign boj_categories = "implementation,math,sorting" | split: "," %}
-{% assign boj_category_titles = 
-  "implementation:구현,math:수학,sorting:정렬" | split: "," %}
+    {% assign boj_category_titles = "implementation:구현,math:수학,sorting:정렬" | split: "," %}
 
-{% for cat in boj_categories %}
-  {% assign title = "" %}
-  {% for pair in boj_category_titles %}
-    {% assign arr = pair | split: ":" %}
-    {% if arr[0] == cat %}
-      {% assign title = arr[1] %}
-    {% endif %}
-  {% endfor %}
+    {% for cat in boj_categories %}
+      {% assign title = "" %}
+      {% for pair in boj_category_titles %}
+        {% assign arr = pair | split: ":" %}
+        {% if arr[0] == cat %}
+          {% assign title = arr[1] %}
+        {% endif %}
+      {% endfor %}
 
-  <article class="post-card">
-    <h2><a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ title }}</a></h2>
-  </article>
-{% endfor %}
+      <article class="post-card">
+        <h2><a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ title }}</a></h2>
+      </article>
+
+      <!-- 해당 카테고리의 포스트 카드 -->
+      <section class="category-posts">
+        {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat" %}
+        {% if posts_in_cat.size > 0 %}
+          {% for post in posts_in_cat %}
+          <article class="post-card">
+            <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+            <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
+            <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+          </article>
+          {% endfor %}
+        {% else %}
+          <p>포스트가 없습니다.</p>
+        {% endif %}
+      </section>
+    {% endfor %}
   </section>
   {% endif %}
 
