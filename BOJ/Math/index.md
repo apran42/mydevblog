@@ -1,13 +1,13 @@
 ---
 layout: default
 title: Math (수학) 문제
-categories: ["BOJ","Math"]
+categories: ["boj","math"]
 ---
 
 <h1>Math (수학) 문제 목록</h1>
 <ul>
 <div class="card-list">
-{% for post in site.categories.Math %}
+{% for post in site.categories.math %}
   <a href="{{ post.url }}" class="card">
     {{ post.title }}
   </a>

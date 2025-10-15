@@ -1,13 +1,13 @@
 ---
 layout: default
 title: Sort (정렬) 
-categories: ["BOJ","Sorting"]
+categories: ["boj","sorting"]
 ---
 
-<h1>Sort (정렬) 문제 목록</h1>
+<h1>Sorting (정렬) 문제 목록</h1>
 <ul>
 <div class="card-list">
-{% for post in site.categories.Sorting %}
+{% for post in site.categories.sorting %}
   <a href="{{ post.url }}" class="card">
     {{ post.title }}
   </a>

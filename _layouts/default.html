@@ -11,7 +11,7 @@
 <header>
   <nav>
     <a href="{{ site.baseurl }}/">Home</a>
-    <a href="{{ site.baseurl }}/BOJ/">BOJ</a>
+    <a href="{{ site.baseurl }}/boj/">BOJ</a>
   </nav>
 </header>
 
@@ -37,9 +37,9 @@
   {% if page.url == "/BOJ/" %}
   <!-- BOJ 하위 카테고리 카드 -->
   <section class="boj-categories">
-    {% assign boj_categories = "Implementation,Math,Sorting" | split: "," %}
+    {% assign boj_categories = "implementation,math,sorting" | split: "," %}
 {% assign boj_category_titles = 
-  "Implementation:구현,Math:수학,Sorting:정렬" | split: "," %}
+  "implementation:구현,math:수학,sorting:정렬" | split: "," %}
 
 {% for cat in boj_categories %}
   {% assign title = "" %}
@@ -51,13 +51,13 @@
   {% endfor %}
 
   <article class="post-card">
-    <h2><a href="{{ site.baseurl }}/BOJ/{{ cat }}/">{{ title }}</a></h2>
+    <h2><a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ title }}</a></h2>
   </article>
 {% endfor %}
   </section>
   {% endif %}
 
-  {% if page.categories contains "BOJ" and page.url != "/BOJ/" %}
+  {% if page.categories contains "boj" and page.url != "/boj/" %}
   {% assign cat_name = page.categories[1] %}
   <section class="category-posts">
     {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
@@ -69,7 +69,7 @@
         <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
         <div class="categories">
           {% for cat in post.categories %}
-          <a href="{{ site.baseurl }}/BOJ/{{ cat }}/">{{ cat }}</a>
+          <a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ cat }}</a>
           {% endfor %}
         </div>
       </article>
@@ -79,9 +79,6 @@
     {% endif %}
   </section>
 {% endif %}
-
-
-
 </main>
 
 <footer>

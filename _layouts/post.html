@@ -13,7 +13,7 @@
       <nav>
         <ul>
           <li><a href="{{ site.baseurl }}/">Home</a></li>
-          <li><a href="{{ site.baseurl }}/BOJ/">BOJ</a></li>
+          <li><a href="{{ site.baseurl }}/boj/">BOJ</a></li>
         </ul>
       </nav>
     </header>
@@ -29,7 +29,7 @@
       <div class="categories">
         카테고리:
         {% for cat in page.categories %}
-            <a class="category-link" href="{{ site.baseurl }}{{ site.data.categories[cat] }}">{{ cat }}</a>
+            <a class="category-link" href="{{ site.baseurl }}/{{ site.data.categories[cat] }}">{{ cat }}</a>
         {% endfor %}
       </div>
       {% endif %}
