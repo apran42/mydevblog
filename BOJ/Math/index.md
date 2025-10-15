@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Math (수학) 문제
-categories: "math"
+categories: ["boj","math"]
 ---
 
 <h1>Math (수학) 문제 목록</h1>
