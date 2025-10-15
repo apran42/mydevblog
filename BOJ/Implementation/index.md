@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Implementation (구현) 문제
-categories: ["boj","implementation"]
+categories: "implementation"
 ---
 
 <h1>Implementation (구현) 문제 목록</h1>

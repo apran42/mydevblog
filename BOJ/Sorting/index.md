@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Sort (정렬) 
-categories: ["boj","sorting"]
+categories: "sorting"
 ---
 
 <h1>Sorting (정렬) 문제 목록</h1>
