@@ -85,6 +85,10 @@
       {% assign cat_name = page.categories | last %}
       <section class="category-posts">
         {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
+        <pre>
+          {{ site.posts | map: "title" | join: ", " }}
+        </pre>
+
         {% if posts_in_cat.size > 0 %}
           {% for post in posts_in_cat %}
           <article class="post-card">
