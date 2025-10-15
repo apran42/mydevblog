@@ -58,16 +58,19 @@
       {% if page.url == "/boj/" %}
       <!-- boj 하위 카테고리 자동 추출 (boj 제외 모든 카테고리) -->
       <section class="boj-categories">
-        {% assign subcategories = "" | split: "" %}
-        {% for post in site.posts %}
-          {% if post.categories contains "boj" %}
-            {% for cat in post.categories %}
-              {% unless cat == "boj" or subcategories contains cat %}
-                {% assign subcategories = subcategories | push: cat %}
-              {% endunless %}
-            {% endfor %}
-          {% endif %}
-        {% endfor %}
+        {% assign subcategories = "" | split: "," %}
+          {% for post in site.posts %}
+            {% if post.categories contains "boj" %}
+              {% for cat in post.categories %}
+                {% unless cat == "boj" %}
+                  {% unless subcategories contains cat %}
+                    {% assign subcategories = subcategories | concat: cat | split: "," %}
+                  {% endunless %}
+                {% endunless %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+
 
         {% for subcat in subcategories %}
           <article class="post-card">
