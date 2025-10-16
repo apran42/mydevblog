@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "백준 1011번: Fly me to the Alpha Centauri"
+title: "[BOJ] 1011번: Fly me to the Alpha Centauri"
 date: 2025-10-14
 categories: ["boj","math"]
 tags: [Gold V]
