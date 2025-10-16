@@ -1,197 +1,318 @@
 /* post.html 전용 CSS */
 
-/* 본문 스타일 */
+/* ======================================= */
+/* 1. 기본 본문 스타일 */
+/* ======================================= */
+/* 글로벌 CSS 리셋: 모든 요소의 너비 계산 방식을 경계선(border)과 패딩까지 포함하도록 설정 */
+*, *::before, *::after {
+    box-sizing: border-box; 
+}
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-  background: #f5f5f5;
-  margin: 0;
-  padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0;
 }
 
-/* 포스트 제목 */
+header {
+    background: #222;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    
+    width: 100%; /* <-- 헤더의 너비를 화면 전체로 명확히 지정 */
+    overflow-x: hidden; /* <-- 가로 스크롤 방지 (혹시 모를 내부 요소의 이탈 차단) */
+}
+
+header nav {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    
+    /* 1. 최대 너비를 설정하여 콘텐츠를 중앙으로 모읍니다. */
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    /* 2. 좌우 여백을 적절히 조정합니다. (기존 1.2rem 2rem에서 변경) */
+    padding: 1.2rem 2rem; 
+}
+
+/* 포스트 제목 및 작성일 */
 h1 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
 }
 
-/* 작성일 */
 em {
-  color: #666;
-  font-size: 0.9rem;
+    color: #666;
+    font-size: 0.9rem;
 }
 
 /* 카테고리/태그 버튼 */
 .categories, .tags {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .categories a, .tags a {
-  display: inline-block;
-  background: #e3edff;
-  color: #4f8cff;
-  border-radius: 6px;
-  padding: 0.25em 0.7em;
-  margin-right: 0.4em;
-  font-size: 0.9em;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.2s, color 0.2s;
+    display: inline-block;
+    background: #e3edff;
+    color: #4f8cff;
+    border-radius: 6px;
+    padding: 0.25em 0.7em;
+    margin-right: 0.4em;
+    font-size: 0.9em;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
 }
 
 .categories a:hover, .tags a:hover {
-  background: #4f8cff;
-  color: #fff;
+    background: #4f8cff;
+    color: #fff;
 }
-
-
 
 /* 본문 링크 */
 a {
-  color: #2980b9;
-  text-decoration: none;
-  transition: color 0.2s;
+    color: #2980b9;
+    text-decoration: none;
+    transition: color 0.2s;
 }
 
 a:hover {
-  color: #1e70b8;
-  text-decoration: none;
+    color: #1e70b8;
+    text-decoration: none;
 }
 
-/* 포스트 본문 영역 */
+/* 포스트 본문 영역 (Main Content) */
 main {
-  max-width: 800px;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    max-width: 800px;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
-/* 추가: 이미지 반응형 */
+/* ======================================= */
+/* 2. 본문 내부 요소 스타일 */
+/* ======================================= */
+
+/* 이미지 반응형 */
 main img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 6px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
 }
 
-/* 추가: 표 스타일 */
+/* 표 스타일 */
 main table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5rem;
-  background: #222;
-  color: #d4d4d4;
-  border-radius: 6px;
-  overflow: hidden;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    background: #222;
+    color: #d4d4d4;
+    border-radius: 6px;
+    overflow: hidden;
+    display: block; /* 모바일에서 표가 깨지는 것을 방지 (스크롤 가능하게) */
+    overflow-x: auto;
 }
 
 main th, main td {
-  padding: 0.7em 1em;
-  border: 1px solid #333;
+    padding: 0.7em 1em;
+    border: 1px solid #333;
+    white-space: nowrap; /* 모바일에서 글자가 깨지지 않도록 */
 }
 
 main th {
-  background: #252526;
-  color: #dcdcaa;
-  font-weight: bold;
+    background: #252526;
+    color: #dcdcaa;
+    font-weight: bold;
 }
 
-/* 추가: blockquote 스타일 */
+/* blockquote 스타일 */
 main blockquote {
-  border-left: 4px solid #2980b9;
-  background: #f0f4fa;
-  color: #2c3e50;
-  margin: 1.5em 0;
-  padding: 1em 1.5em;
-  border-radius: 6px;
-  font-style: italic;
+    border-left: 4px solid #2980b9;
+    background: #f0f4fa;
+    color: #2c3e50;
+    margin: 1.5em 0;
+    padding: 1em 1.5em;
+    border-radius: 6px;
+    font-style: italic;
 }
 
-/* 레이아웃 스타일 */
+/* 코드 블록 스타일 */
+pre[class*="language-"] {
+    background: #1e1e1e;
+    color: #f8f8f2;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto; /* 코드 가로 스크롤 가능하게 */
+    font-family: "Fira Code", "JetBrains Mono", monospace;
+    font-size: 0.95rem; /* 모바일 대비 폰트 사이즈 조정 */
+}
+
+code[class*="language-"] {
+    line-height: 1.6;
+}
+
+/* ======================================= */
+/* 3. 레이아웃 및 사이드바 스타일 (데스크톱) */
+/* ======================================= */
+
 .layout {
-  display: flex;
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 3rem auto;
-  align-items: stretch; /* 높이 맞추기 */
-}
-
-.sidebar {
-  width: 260px;
-  background: #f8fafd;
-  border-radius: 14px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-  padding: 2rem 1.5rem;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  min-height: 600px; /* 본문과 동일하게 */
-}
-
-.profile-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 1rem;
-}
-
-.category-nav h3 {
-  margin-bottom: 0.7rem;
-  font-size: 1.1rem;
-  color: #4f8cff;
-}
-
-.category-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.category-nav li {
-  margin-bottom: 0.5rem;
-}
-
-.category-nav a {
-  color: #222;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.category-nav a:hover {
-  color: #4f8cff;
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 3rem auto;
+    align-items: flex-start;
+    padding: 0 2rem; /* 화면이 1200px 미만일 때 좌우 여백 확보 */
 }
 
 .main-content {
-  flex: 1;
-  min-height: 600px; /* 예시값, 필요에 따라 조정 */
-}
-
-/* 반응형 스타일 */
-@media (max-width: 900px) {
-  .layout {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .sidebar, .main-content {
+    flex: 1;
     min-height: auto;
-  }
-}
-/* 코드 블록 기본 스타일 */
-pre[class*="language-"] {
-  background: #1e1e1e;
-  color: #f8f8f2;
-  border-radius: 12px;
-  padding: 1rem 1.2rem;
-  overflow-x: auto;
-  font-family: "Fira Code", "JetBrains Mono", monospace;
+    /* min-height는 반응형에서 문제가 될 수 있으므로 제거하거나 auto로 설정 권장 */
 }
 
-/* 코드 내부 줄 높이 */
-code[class*="language-"] {
-  line-height: 1.6;
+/* 사이드바 (Sticky) */
+.sidebar {
+    position: sticky;
+    top: 70px;
+    width: 260px;
+    z-index: 100;
+    
+    background: #f8fafd;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 2rem 1.5rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-height: 600px; /* 데스크톱에서 높이 유지 */
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.category-nav h3 {
+    margin-bottom: 0.7rem;
+    font-size: 1.1rem;
+    color: #4f8cff;
+}
+
+.category-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-nav li {
+    margin-bottom: 0.5rem;
+}
+
+.category-nav a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.category-nav a:hover {
+    color: #4f8cff;
+}
+
+/* ======================================= */
+/* 4. 반응형 (Responsive) 설정 */
+/* ======================================= */
+
+/* ------------------------------------- */
+/* A. 태블릿 가로/데스크톱 축소 (Max-width: 900px) */
+/* ------------------------------------- */
+@media (max-width: 900px) {
+    /* 이 영역에서는 가로 배치를 유지하고 패딩만 조절합니다. */
+    .layout {
+        gap: 1.5rem;
+        padding: 0 1.5rem;
+        /* flex-direction: column; <--- 이 코드를 제거해야 합니다! */
+    }
+    
+    /* 사이드바는 여전히 옆에 고정됩니다. */
+    .sidebar, .main-content {
+        min-height: auto;
+    }
+    
+    /* 본문 영역 패딩 축소 */
+    main {
+        padding: 1.5rem;
+    }
+
+    header nav {
+        /* 최대 너비 설정을 해제하여 화면을 꽉 채우고, 좌우 패딩을 더 줄입니다. */
+        max-width: none; 
+        padding: 0.8rem 1rem; /* 좌우 패딩을 1rem으로 축소 */
+        gap: 1rem;
+    }
+    header nav a {
+        font-size: 1rem;
+    }
+}
+
+
+/* ------------------------------------- */
+/* B. 모바일 최적화 (Max-width: 768px) - 핵심 수정 */
+/* ------------------------------------- */
+@media (max-width: 768px) {
+    /* 레이아웃: 가로 -> 세로 쌓기 */
+    .layout {
+        flex-direction: column; /* <-- 세로 배치 시작 */
+        gap: 1.5rem;
+        padding: 0 1rem;
+        margin: 1.5rem auto;
+    }
+    /* 사이드바: Sticky 해제 및 너비 확장 */
+    .sidebar {
+        position: static; /* sticky 해제 */
+        width: 100%;      /* 너비를 꽉 채움 */
+        padding: 1.5rem 1rem;
+    }
+
+    .main-content {
+        width: 100%; 
+    }
+
+    /* 본문: 패딩 축소 */
+    main {
+        padding: 1rem;
+        margin: 0;
+        box-shadow: none; /* 모바일에서 박스 그림자 제거 (선택 사항) */
+    }
+
+    /* 포스트 제목 폰트 크기 조정 */
+    h1 {
+        font-size: 1.8rem;
+    }
+    header nav {
+        /* 최대 너비 설정을 해제하여 화면을 꽉 채우고, 좌우 패딩을 더 줄입니다. */
+        max-width: none; 
+        padding: 0.8rem 1rem; /* 좌우 패딩을 1rem으로 축소 */
+        gap: 1rem;
+    }
+    header nav a {
+        font-size: 1rem;
+    }
+    /* 코드 블록 폰트 크기 조정 */
+    pre[class*="language-"] {
+        padding: 0.8rem 1rem;
+        font-size: 0.85rem;
+    }
 }
