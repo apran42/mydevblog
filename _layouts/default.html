@@ -25,7 +25,8 @@
         <h3>카테고리</h3>
         <ul>
           <li><a href="{{ site.baseurl }}/boj/">BOJ</a></li>
-          <li><a href="{{ site.baseurl }}/dev/">개발</a></li>
+          <li><a href="{{ site.baseurl }}/back_end/">백엔드</a></li>
+          <!-- 필요한 상위 카테고리를 계속 추가 가능 -->
         </ul>
       </nav>
     </aside>
@@ -41,11 +42,7 @@
           <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
           <div class="categories">
             {% for cat in post.categories %}
-              {% if cat == "boj" %}
-                <a href="{{ site.baseurl }}/{{ cat }}/">{{ cat }}</a>
-              {% else %}
-                <a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ cat }}</a>
-              {% endif %}
+              <a href="{{ site.baseurl }}/{{ cat }}/">{{ cat }}</a>
             {% endfor %}
           </div>
         </article>
@@ -53,65 +50,72 @@
       </section>
       {% endif %}
 
-      {% if page.url == "/boj/" %}
-      <!-- boj 하위 카테고리 자동 추출 (GitHub Pages 호환 + 포스트 개수 표시) -->
-      <section class="boj-categories">
+      {% comment %}
+      상위 카테고리 및 하위 카테고리 자동 처리
+      page.url 예시:
+        /boj/        -> main_category = "boj"
+        /back_end/   -> main_category = "back_end"
+      {% endcomment %}
+      {% assign main_category = page.url | split: "/" | slice: 1,1 | first %}
+      {% assign main_category_url = "/" | append: main_category | append: "/" %}
 
-        {% capture subcategories_str %}{% endcapture %}
-        {% for post in site.posts %}
-          {% if post.categories contains "boj" %}
-            {% for cat in post.categories %}
-              {% unless cat == "boj" %}
-                {% unless subcategories_str contains cat %}
-                  {% capture subcategories_str %}{{ subcategories_str }},{{ cat }}{% endcapture %}
-                {% endunless %}
-              {% endunless %}
-            {% endfor %}
-          {% endif %}
-        {% endfor %}
-        {% assign subcategories = subcategories_str | split: "," | uniq %}
-
-        {% for subcat in subcategories %}
-          {% unless subcat == "" %}
-            {% assign posts_in_cat = site.posts
-              | where_exp: "post", "post.categories contains 'boj'"
-              | where_exp: "post", "post.categories contains subcat" %}
-            <article class="post-card">
-              <h2>
-                <a href="{{ site.baseurl }}/boj/{{ subcat | downcase }}/">{{ subcat }}</a>
-                <span style="font-size:0.9em; color:#888;">({{ posts_in_cat | size }})</span>
-              </h2>
-            </article>
-          {% endunless %}
-        {% endfor %}
-
-      </section>
-      {% endif %}
-
-      {% if page.categories contains "boj" and page.url != "/boj/" %}
-      {% assign cat_name = page.categories | last %}
-      <section class="category-posts">
-        {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
-
-        {% if posts_in_cat.size > 0 %}
-          {% for post in posts_in_cat %}
-          <article class="post-card">
-            <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
-            <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
-            <div class="categories">
+      {% if main_category != "" %}
+        {% if page.url == main_category_url %}
+        <!-- 상위 카테고리 페이지에서 하위 카테고리 목록 표시 -->
+        <section class="{{ main_category }}-categories">
+          {% capture subcategories_str %}{% endcapture %}
+          {% for post in site.posts %}
+            {% if post.categories contains main_category %}
               {% for cat in post.categories %}
-                {% unless cat == "boj" %}
-                  <a href="{{ site.baseurl }}/boj/{{ cat }}/">{{ cat }}</a>
+                {% unless cat == main_category %}
+                  {% unless subcategories_str contains cat %}
+                    {% capture subcategories_str %}{{ subcategories_str }},{{ cat }}{% endcapture %}
+                  {% endunless %}
                 {% endunless %}
               {% endfor %}
-            </div>
-          </article>
+            {% endif %}
           {% endfor %}
+          {% assign subcategories = subcategories_str | split: "," | uniq %}
+
+          {% for subcat in subcategories %}
+            {% unless subcat == "" %}
+              {% assign posts_in_cat = site.posts
+                | where_exp: "post", "post.categories contains main_category"
+                | where_exp: "post", "post.categories contains subcat" %}
+              <article class="post-card">
+                <h2>
+                  <a href="{{ site.baseurl }}/{{ main_category }}/{{ subcat | downcase }}/">{{ subcat }}</a>
+                  <span style="font-size:0.9em; color:#888;">({{ posts_in_cat | size }})</span>
+                </h2>
+              </article>
+            {% endunless %}
+          {% endfor %}
+        </section>
         {% else %}
-          <p>포스트가 없습니다.</p>
+        <!-- 하위 카테고리 페이지에서 해당 카테고리 포스트 표시 -->
+        {% assign cat_name = page.categories | last %}
+        <section class="category-posts">
+          {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
+
+          {% if posts_in_cat.size > 0 %}
+            {% for post in posts_in_cat %}
+            <article class="post-card">
+              <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
+              <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
+              <div class="categories">
+                {% for cat in post.categories %}
+                  {% unless cat == main_category %}
+                    <a href="{{ site.baseurl }}/{{ main_category }}/{{ cat }}/">{{ cat }}</a>
+                  {% endunless %}
+                {% endfor %}
+              </div>
+            </article>
+            {% endfor %}
+          {% endif %}
+        </section>
         {% endif %}
-      </section>
       {% endif %}
+
     </main>
   </div>
 
