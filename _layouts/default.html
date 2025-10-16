@@ -78,7 +78,7 @@
               | where_exp: "post", "post.categories contains subcat" %}
             <article class="post-card">
               <h2>
-                <a href="{{ site.baseurl }}/boj/{{ subcat }}/">{{ subcat }}</a>
+                <a href="{{ site.baseurl }}/boj/{{ subcat | downcase }}/">{{ subcat }}</a>
                 <span style="font-size:0.9em; color:#888;">({{ posts_in_cat | size }})</span>
               </h2>
             </article>
