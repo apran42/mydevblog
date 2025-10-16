@@ -5,33 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title | default: site.title }}</title>
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/default.css">
-  </head>
+</head>
 <body>
   <header>
     <nav>
       <a href="{{ site.baseurl }}/">DevBlog</a>
-      <!-- BOJ 항목 삭제 -->
     </nav>
   </header>
 
   <div class="layout">
     <aside class="sidebar">
-      <!-- 프로필 영역 -->
       <div class="profile">
         <img src="{{ site.baseurl }}/assets/images/profile.png" alt="프로필" class="profile-img">
         <h2>Apran</h2>
         <p>개발과 문제풀이를 기록하고 있습니다</p>
       </div>
-      <!-- 카테고리 구조 -->
+
       <nav class="category-nav">
         <h3>카테고리</h3>
         <ul>
           <li><a href="{{ site.baseurl }}/boj/">BOJ</a></li>
           <li><a href="{{ site.baseurl }}/dev/">개발</a></li>
-          <!-- 하위 카테고리도 중첩 ul로 표시 가능 -->
         </ul>
       </nav>
     </aside>
+
     <main class="main-content">
 
       {% if page.url == "/" %}
@@ -56,28 +54,37 @@
       {% endif %}
 
       {% if page.url == "/boj/" %}
-      <!-- boj 하위 카테고리 자동 추출 (boj 제외 모든 카테고리) -->
+      <!-- boj 하위 카테고리 자동 추출 (GitHub Pages 호환 + 포스트 개수 표시) -->
       <section class="boj-categories">
-        {% assign subcategories = "" | split: "," %}
 
+        {% capture subcategories_str %}{% endcapture %}
         {% for post in site.posts %}
           {% if post.categories contains "boj" %}
             {% for cat in post.categories %}
               {% unless cat == "boj" %}
-                {% unless subcategories contains cat %}
-                  {% assign subcategories = subcategories | push: cat %}
+                {% unless subcategories_str contains cat %}
+                  {% capture subcategories_str %}{{ subcategories_str }},{{ cat }}{% endcapture %}
                 {% endunless %}
               {% endunless %}
             {% endfor %}
           {% endif %}
         {% endfor %}
-
+        {% assign subcategories = subcategories_str | split: "," | uniq %}
 
         {% for subcat in subcategories %}
-          <article class="post-card">
-            <h2><a href="{{ site.baseurl }}/boj/{{ subcat }}/">{{ subcat }}</a></h2>
-          </article>
+          {% unless subcat == "" %}
+            {% assign posts_in_cat = site.posts
+              | where_exp: "post", "post.categories contains 'boj'"
+              | where_exp: "post", "post.categories contains subcat" %}
+            <article class="post-card">
+              <h2>
+                <a href="{{ site.baseurl }}/boj/{{ subcat }}/">{{ subcat }}</a>
+                <span style="font-size:0.9em; color:#888;">({{ posts_in_cat | size }})</span>
+              </h2>
+            </article>
+          {% endunless %}
         {% endfor %}
+
       </section>
       {% endif %}
 
@@ -85,9 +92,6 @@
       {% assign cat_name = page.categories | last %}
       <section class="category-posts">
         {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat_name" %}
-        <pre>
-          {{ site.posts | map: "title" | join: ", " }}
-        </pre>
 
         {% if posts_in_cat.size > 0 %}
           {% for post in posts_in_cat %}
@@ -114,7 +118,5 @@
   <footer>
     <p>© 2025 MyDevBlog</p>
   </footer>
-  
-
 </body>
 </html>
