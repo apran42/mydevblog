@@ -42,7 +42,11 @@
           <p class="post-date">{{ post.date | date: "%Y-%m-%d" }}</p>
           <div class="categories">
             {% for cat in post.categories %}
+              {% if cat == post.categories[0] %}
               <a href="{{ site.baseurl }}/{{ cat }}/">{{ cat }}</a>
+              {% else %}
+              <a href="{{ site.baseurl }}/{{ post.categories[0] }}/{{ cat }}/">{{ cat }}</a>
+              {% endif %}
             {% endfor %}
           </div>
         </article>
