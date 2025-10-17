@@ -2,6 +2,6 @@ boj: boj/
 implementation: boj/implementation/
 math: boj/math/
 sorting: boj/sorting/
-geometry: boj/geometry/
+data_structure: boj/data_structure/
 back_end: back_end/
 spring_boot: back_end/spring_boot/
